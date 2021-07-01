@@ -1,41 +1,82 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+import createError from 'http-errors';
+import express from 'express';
+import path from 'path';
+import session from "express-session"
+import cookieParser from 'cookie-parser';
+import logger from 'morgan';
+import fs from "fs";
+import {fileURLToPath} from "url"
+import dotenv from "dotenv"
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+dotenv.config()
 
-var app = express();
+import "./database/models/index.js"
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+import registerRouter from'./routes/register.js';
+import usersRouter from'./routes/login.js';
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+class App{
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+    constructor(){
+        this.app = express();
+        this.checkSecure();
+        this.middlewares();
+        this.routes();
+        this.notFound();
+        this.backEndErrors();
+    }
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+    middlewares(){
+        this.app.use(logger('dev'));
+        this.app.use(express.json());
+        this.app.use(express.urlencoded({ extended: false }));
+        this.app.use(cookieParser());
+        this.app.use(express.static(path.join(__dirname, 'public')));
+        this.app.use(session({
+            secret: process.env.SECRET_SESSION,
+            resave: false,
+            saveUninitialized: true
+        }));
+    }
 
-module.exports = app;
+    routes(){
+        this.app.use('/', usersRouter);
+        this.app.use('/users',registerRouter );         
+    }
+
+    notFound(){
+        this.app.use(function(req, res, next) {
+            next(createError(404));
+        });
+    }
+
+    backEndErrors(){
+        this.app.use(function(err, req, res, next) {
+            // set locals, only providing error in development
+            res.locals.message = err.message;
+            res.locals.error = req.app.get('env') === 'development' ? err : {};
+          
+            // render the error page
+            res.status(err.status || 500);
+            res.render('error');
+          });
+    }
+
+    checkSecure(){
+        this.app.use((req, res, next)=>{
+          if(!req.secure){
+    
+            res.redirect(`https://localhost:${process.env.PORT_TLS || 3100}${req.url}`);
+    
+          }
+    
+          next()
+        })
+    }
+}
+
+export default new App()

@@ -5,12 +5,23 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+  animation: App-logo-spin infinite 10s linear;
 }
 
-@media (prefers-reduced-motion: no-preference) {
+/* @media (prefers-reduced-motion:no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    
   }
+} */
+
+.profileImage > div > img{
+  min-width: 3vw;
+  min-height: 3vh;
+}
+
+.profileImage{
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 .App-header {

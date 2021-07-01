@@ -13,11 +13,11 @@ module.exports = {
         acess: 2,
         createdAt: moment().format("YYYY-MM-DD HH:MM"),
         updatedAt: moment().format("YYYY-MM-DD HH:MM")
-      
     }], {})
   },
 
   down: async (queryInterface, Sequelize) => {
+      
     /**
      * Add commands to revert seed here.
      *

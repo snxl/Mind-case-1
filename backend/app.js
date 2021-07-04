@@ -10,11 +10,8 @@ import dotenv from "dotenv"
 
 dotenv.config()
 
-import "./database/models/index.js"
 
-
-import registerRouter from'./routes/register.js';
-import usersRouter from'./routes/login.js';
+import usersRouter from './routes/userRoute.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -44,8 +41,7 @@ class App{
     }
 
     routes(){
-        this.app.use('/', usersRouter);
-        this.app.use('/users',registerRouter );         
+        this.app.use('/users', usersRouter );         
     }
 
     notFound(){

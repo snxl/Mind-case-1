@@ -67,6 +67,8 @@ export default new class UserService{
 
     async indexAllUser(){
 
+        return await db.User.findAll()
+
     }
 
     async update(token, data){

@@ -1,8 +1,12 @@
 import service from "../services/userService.js"
-import db from "../database/models/index.js"
-import sequelize from "sequelize"
 
 export default new class Register {
+
+    async allUserAdm(req, res){
+
+        res.json(await service.indexAllUser())
+
+    }
 
     async indexUser(req, res){
         

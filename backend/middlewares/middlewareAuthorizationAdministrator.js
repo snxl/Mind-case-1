@@ -7,7 +7,7 @@ export default (req, res, next)=>{
 
         const bearer = req.headers.authorization.split(" ")
 
-        const dataToken = await jwt.verify(bearer[1], process.env.SECRET_TOKEN)
+        const dataToken =  jwt.verify(bearer[1], process.env.SECRET_TOKEN)
 
         const credentialLevel = Number(dataToken.credential)
 

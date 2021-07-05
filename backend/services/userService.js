@@ -6,6 +6,66 @@ import bcrypt from "bcryptjs"
 const Op = Sequelize.Op
 
 export default new class UserService{
+    async updateAdm(data){
+
+        try {
+            const updated = await db.User.update({
+                email: data.email,
+                password: data.password,
+                name: data.name
+            }, {
+                where: {email: data.oldEmail},
+                individualHooks: true,
+                returning:true
+            })
+
+            const newJsonWebToken = await jwt.sign({id: updated[1][0].id, email: updated[1][0].email}, process.env.SECRET_TOKEN, {
+                expiresIn:"7d"
+            })
+
+
+            return updated[0] === 1?{
+                    status: "sucess",
+                    message: "atualizado com sucesso",
+                    jsonwebtoken: newJsonWebToken
+                }:{
+                    status: "error",
+                    dataUpdate: updated,
+                    error: [ "falha ao atualizar dados"]
+                }
+
+        } catch (error) {
+            
+            return {
+                status: "error",
+                error: ["falha ao atualizar dados"]
+               }
+
+        }
+    }
+
+    async destroyAdm(data){
+
+        try {
+            
+            const destryProfile = await db.User.destroy({
+                where:{email: data.email}
+            })
+
+            return {
+                status:"success",
+                destryProfile
+            }
+
+        } catch (err) {
+            
+            return {
+                status: "error",
+                err
+            }
+        }
+
+    }
 
     async store(data){
         
@@ -89,24 +149,17 @@ export default new class UserService{
                     ]
                 },
                 individualHooks: true,
+                returning:true
             })
 
 
-            const newData = await db.User.findOne({
-                where: {
-                    [Op.or]: [
-                        {email: data.email}, 
-                        {id: dataToken.id}
-                    ]
-                }
-            })
-
-            const newJsonWebToken = await jwt.sign({id: newData.id, email: newData.email}, process.env.SECRET_TOKEN, {
+            const newJsonWebToken = await jwt.sign({id: updated[1][0].id, email: updated[1][0].email}, process.env.SECRET_TOKEN, {
                 expiresIn:"7d"
             })
 
-            return updated[0] === 1 && newData !== null?{
-                    status: "sucess",
+
+            return updated[0] === 1?{
+                    status: "success",
                     jsonwebtoken: newJsonWebToken
                 }:{
                     status: "error",

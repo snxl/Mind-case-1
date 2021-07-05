@@ -1,6 +1,23 @@
 import service from "../services/userService.js"
 
 export default new class Register {
+    async updateAdm(req, res){
+
+        const data = await service.updateAdm(req.body)
+
+        if(data.status === 'success')return res.status(200).json(data)
+        else return res.status(403).json(data)
+
+    }
+
+    async deleteAdm (req, res){
+
+        const data = await service.destroyAdm(req.body)
+
+        if(data.status === 'success')return res.status(200).json(data)
+        else return res.status(403).json(data)
+
+    }
 
     async allUserAdm(req, res){
 

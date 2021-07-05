@@ -7,14 +7,16 @@ import middlewareAuthorizationAdministrator from '../middlewares/middlewareAutho
 
 const router = express.Router();
 
-router.get('/allusers', middlewareAuthorizationAdministrator, userController.allUserAdm);
+router.get('/admin/allusers', middlewareAuthorizationAdministrator, userController.allUserAdm);
 
 router.post('/signup', middlewareValidator.singUp , userController.store);
 router.post("/singin", middlewareValidator.singIn, userController.indexUser)
 
 router.put('/update', middlewareAuthenticator, middlewareValidator.update , userController.update);
+router.put('/admin/update', middlewareAuthorizationAdministrator, middlewareValidator.updateAdmin , userController.updateAdm);
 
 router.delete('/delete', middlewareAuthenticator, userController.destroy);
+router.delete('/admin/delete', middlewareAuthorizationAdministrator, middlewareValidator.delete, userController.deleteAdm);
 
 
 export default router

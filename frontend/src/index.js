@@ -2,14 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 //components
-import App from './pages/singup.js';
+import Router from './routes/router.js';
 
 //global css
 import './styles/global.css';
 
 ReactDOM.render(
 
-    <App/>,
+    <Router/>,
 
   document.querySelector("[data-root]")
 );

@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import fs from "fs";
 import {fileURLToPath} from "url"
+import cors from "cors"
 import dotenv from "dotenv"
 
 dotenv.config()
@@ -28,9 +29,10 @@ class App{
     }
 
     middlewares(){
+        this.app.use(cors())
         this.app.use(logger('dev'));
         this.app.use(express.json());
-        this.app.use(express.urlencoded({ extended: false }));
+        this.app.use(express.urlencoded({ extended: true }));
         this.app.use(cookieParser());
         this.app.use(express.static(path.join(__dirname, 'public')));
         this.app.use(session({

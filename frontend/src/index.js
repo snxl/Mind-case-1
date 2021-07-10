@@ -1,12 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/index.css';
-import App from './components/App.js';
+
+//components
+import Router from './routes/router.js';
+
+//global css
+import './styles/global.css';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App/>
-  </React.StrictMode>,
-  document.getElementById('root')
+
+    <Router/>,
+
+  document.querySelector("[data-root]")
 );
 

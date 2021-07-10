@@ -8,7 +8,7 @@ export default function PrivateRoute ({component: Component, ...rest}){
         <Route {...rest} render={props => (
             getterCookie()?
                 <Component {...props} />: 
-                <Redirect to="/registro" />
+                <Redirect to="/login" />
         )} />
     )
 }

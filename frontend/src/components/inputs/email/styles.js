@@ -6,7 +6,7 @@ export const emailGroup = styled.div`
     align-items: center;
     justify-content: center;
     margin-top: -10px;
-    margin-bottom:5px
+    margin-bottom:5px;
 `
 
 export const input = styled.input`
@@ -19,6 +19,7 @@ export const input = styled.input`
     padding-bottom: 10px;
     padding-top: 10px;
     background-color: none;
+    padding-right: 30%;
 
     ::placeholder{
         font-family:  'Open Sans', sans-serif;

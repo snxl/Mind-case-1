@@ -1,8 +1,10 @@
 import React from "react";
 import PrivateRoute from "./privateRoutes.js";
-import { Switch, Route, BrowserRouter, Redirect } from "react-router-dom"
+import PublicRoute from "./publicRoute.js";
+import { Switch, BrowserRouter, Redirect } from "react-router-dom"
 
 import signUpPage from "../pages/registro/"
+import singInPage from "../pages/login"
 
 
 export default function Router(){
@@ -10,8 +12,8 @@ export default function Router(){
         <>
             <BrowserRouter>
                 <Switch>
-                    <Route path="/registro" exact component={signUpPage} />
-                    <Route path="/login" exact component={undefined} />
+                    <PublicRoute path="/registro" exact component={signUpPage} />
+                    <PublicRoute path="/login" exact component={singInPage} />
                     <PrivateRoute path="/perfil" exact component={signUpPage} />
                     <Redirect to="/registro" />
                 </Switch>

@@ -26,10 +26,18 @@ export default new class validate{
                                 .oneOf([yup.ref('password'), null], 'Senhas incorretas')
         })
 
-        const checkEmail = await db.User.findOne({
-            where: {email : req.body.email},
-            attributes: ["email"],
-        })
+        let checkEmail;
+
+        try {
+            checkEmail = await db.User.findOne({
+                where: {email : req.body.email},
+                attributes: ["email"],
+            })
+
+        } catch (error) {
+            console.log(error)
+        }
+
 
 
         try {
@@ -221,7 +229,8 @@ export default new class validate{
         }else{
             schema =  yup.object().shape({
                 email: yup
-                            .string(),
+                            .string()
+                            .min(1),
 
                 name: yup
                             .string()

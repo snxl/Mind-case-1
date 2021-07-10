@@ -36,10 +36,6 @@ export default function Form(props){
 
   async function register(event){
 
-    (function (){
-
-    })()
-
     event.preventDefault()
 
     if(password.length < 8){
@@ -174,6 +170,7 @@ export default function Form(props){
                 passwordCapitalBoolean ||
                 passwordNumberBoolean? true : false
               }
+              type="password"
               value={password} 
               error1={passwordLength} 
               error2={passwordSmall} 
@@ -183,8 +180,7 @@ export default function Form(props){
 
             <PasswordCheck
              counter={setPasswordCheck} 
-             value={passwordCheck} 
-             valueCheck={password}
+             value={passwordCheck}
              passwordCheckError={passwordCheckBoolean}
              error={passwordCheckError} 
             />

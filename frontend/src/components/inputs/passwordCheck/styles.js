@@ -18,6 +18,7 @@ export const input = styled.input`
     padding-bottom: 10px;
     padding-top: 10px;
     background-color: none;
+    padding-right: 30%;
 
     ::placeholder{
         font-family:  'Open Sans', sans-serif;

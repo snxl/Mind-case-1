@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 
 import * as s from "./styles"
 
+import showBtn from "../../../img/showPassword.svg"
+
 
 export default function Password(props){
+
+    const [type , setType] = useState("password")
+
+    function typePassword(e){
+
+        e.preventDefault()
+
+        type === "password"?
+                setType("text"):
+                setType("password")
+    }
 
         return(
             <s.passwordGroup>
@@ -14,16 +27,27 @@ export default function Password(props){
 
                 </s.label>
 
-               
-                <s.input error={props.passwordError} 
-                    type="password"
-                    placeholder="Senha ****"
-                    value={props.value}
-                    onChange={(e)=> props.counter(e.target.value)}
-                    onFocus={(e)=> e.target.style.opacity = "100%"}
-                    onBlur={(e)=>  e.target.style.opacity = "50%"}
-                    required
-                />
+               <s.divInput>
+
+                    <s.input 
+                        error={props.passwordError} 
+                        type={type}
+                        placeholder="Senha ****"
+                        value={props.value}
+                        onChange={(e)=> props.counter(e.target.value)}
+                        onFocus={(e)=> e.target.style.opacity = "100%"}
+                        onBlur={(e)=>  e.target.style.opacity = "50%"}
+                        required
+                    />
+
+                    {props.image && (
+                        <s.btn>
+                            <s.image src={showBtn} onClick={(e) => typePassword(e)} />   
+                        </s.btn>
+                    )}
+
+               </s.divInput>
+
                 
                 {props.passwordError? (
                     <s.error>

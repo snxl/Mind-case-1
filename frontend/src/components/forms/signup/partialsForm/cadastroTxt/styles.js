@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
 export const divH1 = styled.div`
     font-size: 1rem;
@@ -10,10 +10,14 @@ export const divH1 = styled.div`
     margin-top: 40px;
     margin-bottom: 40px;
 
-    @media(max-width:800px){
-        ${props => props.className && `
-        font-size: 0.9rem;
-        margin-top: -20px;
+    @media(max-width:768px){
+        ${props => props.className && css`
+            font-size: 0.9rem;
+            margin-top: -20px;
+            display: flex;
+            justify-content: center;
+            padding-left: 0%;
+            width: 100%;
         `}
     }
 `

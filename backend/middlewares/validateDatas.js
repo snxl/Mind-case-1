@@ -70,6 +70,13 @@ export default new class validate{
     }
 
     async update(req, res, next){
+
+        const {email, name, password, passwordCheck } = req.body
+
+        email? email: ()=> email = null
+        name? name: ()=> name = null
+        password? password: ()=> password = null
+        passwordCheck? passwordCheck: ()=> passwordCheck = null
         
         let schema = undefined
 
@@ -92,7 +99,6 @@ export default new class validate{
                                 .oneOf([yup.ref('password'), null], 'Senhas incorretas'),
                 name: yup
                             .string()
-                            .min(1, "Minimo 1 caractere")
             })
         }else{
             schema =  yup.object().shape({
@@ -114,6 +120,8 @@ export default new class validate{
         })
         else req.body.email = token.email
 
+        
+
         try {
             await schema.validate(req.body, {abortEarly: false})
 
@@ -128,6 +136,8 @@ export default new class validate{
             })
 
         } catch (err) {
+
+            console.log(err)
             const arrayErrors = []
 
             err.errors.forEach(element => {

@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom"
 import Cookie from "js-cookie"
 
 import api from "../../../services/apiSignUp.js"
+import setCookie from "../../../utils/setterCookie.js"
 
 import Email from "../../inputs/email/"
 import Password from "../../inputs/password/index.js"
@@ -118,7 +119,7 @@ export default function Form(props){
         password === passwordCheck
       ){
 
-      req = await api.post("signup",{
+      req = await api.post("",{
         email,
         password,
         passwordCheck
@@ -138,10 +139,7 @@ export default function Form(props){
 
     if(req && req.data.status === "success"){
       
-      Cookie.set("token", req.data.jsonwebtoken, {
-        expires: 7,
-        secure: true
-      })
+      setCookie(req.data.jsonwebtoken)
 
       history.push("/perfil")
     }
@@ -160,6 +158,7 @@ export default function Form(props){
               value={email} 
               emailError={errorEmail} 
               emailClass={classInput}
+              require={true}
             />
 
             <Password 
@@ -176,6 +175,7 @@ export default function Form(props){
               error2={passwordSmall} 
               error3={passwordCapital} 
               error4={passwordNumber}
+              require={true}
             />
 
             <PasswordCheck
@@ -183,6 +183,7 @@ export default function Form(props){
              value={passwordCheck}
              passwordCheckError={passwordCheckBoolean}
              error={passwordCheckError} 
+             require={true}
             />
 
             <ButtonSingUp />

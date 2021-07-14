@@ -5,7 +5,7 @@ import { Switch, BrowserRouter, Redirect } from "react-router-dom"
 
 import signUpPage from "../pages/registro/"
 import singInPage from "../pages/login"
-
+import Profile from "../pages/perfil"
 
 export default function Router(){
     return(
@@ -14,9 +14,10 @@ export default function Router(){
                 <Switch>
                     <PublicRoute path="/registro" exact component={signUpPage} />
                     <PublicRoute path="/login" exact component={singInPage} />
-                    <PrivateRoute path="/perfil" exact component={signUpPage} />
-                    <Redirect to="/registro" />
+                    <PrivateRoute path="/perfil" exact component={Profile} />
+                    <Redirect to="/perfil" />
                 </Switch>
+
             </BrowserRouter>
         </>
     )

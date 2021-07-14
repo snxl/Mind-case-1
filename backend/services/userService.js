@@ -78,7 +78,7 @@ export default new class UserService{
             
             const data = await db.User.create({email, password})
 
-            const token = await jwt.sign({id: data.id, email: data.email, credential: data.credential, acess: data.acess}, process.env.SECRET_TOKEN, {
+            const token = await jwt.sign({id: data.id, name: data.name, email: data.email, credential: data.credential}, process.env.SECRET_TOKEN, {
                 expiresIn: process.env.TOKEN_EXPIRATION
             })
 
@@ -103,14 +103,16 @@ export default new class UserService{
             where:{
                 email: request.email
             },
-            attributes:["id", "email", "credential", "acess", "password"]
         })
 
         let token
 
-        if(await bcrypt.compare(request.password, data.password)) token = await jwt.sign({id: data.id, email: data.email, credential: data.credential, acess: data.acess}, process.env.SECRET_TOKEN, {
-            expiresIn: process.env.TOKEN_EXPIRATION
-        })
+
+        if(data && await bcrypt.compare(request.password, data.password)){
+            token = await jwt.sign({id: data.id, email: data.email,  credential: data.credential, acess: data.acess}, process.env.SECRET_TOKEN, {
+                expiresIn: process.env.TOKEN_EXPIRATION
+            })
+        }
 
          
         return token? 
@@ -135,25 +137,24 @@ export default new class UserService{
 
         const dataToken = await jwt.verify(token, process.env.SECRET_TOKEN)
 
+        let updateObject ={}
+
+        if(data.email) updateObject.email = data.email
+        if(data.password) updateObject.password = data.password
+        if(data.name) updateObject.name = data.name
+
+        if(data.credential) updateObject.credential = data.credential
 
         try {
-            const updated = await db.User.update({
-                email: data.email,
-                password: data.password,
-                name: data.name
-            }, {
+            const updated = await db.User.update(updateObject, {
                 where: {
-                    [Op.or]: [
-                        {id: dataToken.id},
-                        {email: dataToken.email}
-                    ]
+                    email: dataToken.email
                 },
-                individualHooks: true,
-                returning:true
+                individualHooks: updateObject.password? true: false,
+                returning:true,
             })
 
-
-            const newJsonWebToken = await jwt.sign({id: updated[1][0].id, email: updated[1][0].email}, process.env.SECRET_TOKEN, {
+            const newJsonWebToken = await jwt.sign({id: updated[1][0].id, email: updated[1][0].email, name: updated[1][0].name, credential: updated[1][0].credential }, process.env.SECRET_TOKEN, {
                 expiresIn:"7d"
             })
 

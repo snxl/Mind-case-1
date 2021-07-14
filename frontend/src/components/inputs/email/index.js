@@ -22,7 +22,7 @@ export default function Email(props){
                     onChange={(e)=> props.counter(e.target.value)}
                     onFocus={(e)=> e.target.style.opacity = "100%"}
                     onBlur={(e)=> e.target.style.opacity = "50%" }
-                    required 
+                    required={props.require}
                 />
 
                 <s.error>

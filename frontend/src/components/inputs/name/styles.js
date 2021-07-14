@@ -44,27 +44,6 @@ export const divInput = styled.div`
     width: 100%;
 `
 
-export const image = styled.img`
-    position: relative;
-    right: -30%;
-    bottom: 15%;
-
-    :hover{
-        filter: brightness(40%);
-        filter: opacity(80%);
-    }
-
-    :active{
-        filter: brightness(10%);
-        filter: opacity(60%);
-    }
-
-    @media(max-width:768px){
-        right: -10px;
-        bottom: 15%;
-    }
-`
-
 export const btn = styled.button`
     background: none;
     border: none;
